@@ -1,0 +1,24 @@
+<h3>Countries - Server Fetch</h3>
+<mat-form-field>
+  <mat-label>Countries</mat-label>
+  <mat-select (opened)="onServerSelectOpened()">
+    <ng-container *ngIf="serverCountriesLoading">
+      <mat-option>Loading...</mat-option>
+    </ng-container>
+    <mat-option *ngFor="let country of serverCountries$ | async" [value]="country.code">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<h3>Countries - IndexedDB Cached</h3>
+<mat-form-field>
+  <mat-label>Countries</mat-label>
+  <mat-select (opened)="onIndexedDBSelectOpened()">
+    <ng-container *ngIf="indexedDBCountriesLoading">
+      <mat-option>Loading...</mat-option>
+    </ng-container>
+    <mat-option *ngFor="let country of indexedDBCountries$ | async" [value]="country.code">
+      {{ country.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
