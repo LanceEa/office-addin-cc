@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, from, of } from 'rxjs';
+import { Subject, from, of, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { take, map, delay, exhaustMap } from 'rxjs/operators';
+import { take, map, delay, exhaustMap, concatMap } from 'rxjs/operators';
 import * as idb from 'idb-keyval';
+
+interface Country {
+  code: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-indexeddb',
@@ -34,9 +39,16 @@ export class IndexeddbComponent {
 
   onIndexedDBSelectOpened() {
     // 1. check indexedDB
-    from(idb.get(this.COUNTRIES_KEY))
+    from(idb.get(this.COUNTRIES_KEY, this.db))
       .pipe(
-        exhaustMap((values: { code: string; name: string }[]) => (values ? of(values) : this.fetchCountries$())),
+        exhaustMap((values: Country[]) => {
+          console.log(values);
+          if (values) {
+            return of(values);
+          }
+
+          return this.fetchCountries$().pipe(concatMap(data => this.cacheCountries(data)));
+        }),
         take(1)
       )
       .subscribe(countries => {
@@ -45,12 +57,16 @@ export class IndexeddbComponent {
       });
   }
 
-  fetchCountries$() {
+  fetchCountries$(): Observable<Country[]> {
     return this.http.get('assets/countries.json').pipe(
       map(countries => Object.keys(countries).map(key => ({ code: key, name: countries[key] }))),
-      map((countries: { code: string; name: string }[]) => [...countries].sort((a, b) => a.name.localeCompare(b.name))),
+      map((countries: Country[]) => [...countries].sort((a, b) => a.name.localeCompare(b.name))),
       take(1),
-      delay(1000)
+      delay(2000)
     );
+  }
+
+  private cacheCountries(countries: Country[]): Observable<Country[]> {
+    return from(idb.set(this.COUNTRIES_KEY, countries, this.db)).pipe(map(() => countries));
   }
 }

@@ -1,3 +1,18 @@
-<p>
-  web-socket works!
-</p>
+<h3>Web Sockets</h3>
+<div class="bouncy-container">
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+</div>
+<p>Please enter a number in cell sheet1:A1 to calculate the Fibonacci!</p>
+<div class="worker-actions">
+  <button mat-raised-button color="warn" (click)="mainCalculateFibonacci()" [disabled]="calculating">
+    Main
+  </button>
+  <button mat-raised-button color="accent" (click)="workerCalculateFibonacci()" [disabled]="calculating">
+    Web Socket
+  </button>
+</div>
+<p>{{ message$ | async }}</p>

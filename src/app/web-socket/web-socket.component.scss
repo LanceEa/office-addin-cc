@@ -1,0 +1,84 @@
+:host {
+  padding: 20px;
+  display: block;
+}
+
+$excel-green: #1c5d39;
+$outlook-blue: #085085;
+$teams-purple: #7179c8;
+$powerpoint-red: #ba3621;
+$word-blue: #184dae;
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-100px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceMargin {
+  0% {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+  50% {
+    margin-bottom: 50%;
+    margin-right: 50%;
+  }
+
+  100% {
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+}
+
+.bouncy-container {
+  height: 150px;
+  width: 100%;
+  border: 1px dotted black;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+
+  .circle {
+    display: inline-flex;
+    margin: 0 5px;
+    height: 30px;
+    width: 30px;
+    border-radius: 2em;
+    // animation: bounce 0.9s ease-in infinite;
+
+    &:nth-child(1) {
+      background-color: $excel-green;
+    }
+    &:nth-child(2) {
+      background-color: $outlook-blue;
+      animation-delay: 0.15s;
+    }
+    &:nth-child(3) {
+      background-color: $teams-purple;
+      animation-delay: 0.25s;
+    }
+    &:nth-child(4) {
+      background-color: $powerpoint-red;
+      animation-delay: 0.35s;
+    }
+    &:nth-child(5) {
+      background-color: $word-blue;
+      animation: bounceMargin 0.9s ease-in infinite;
+    }
+  }
+}
+.worker-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
