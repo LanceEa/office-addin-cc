@@ -42,7 +42,6 @@ export class IndexeddbComponent {
     from(idb.get(this.COUNTRIES_KEY, this.db))
       .pipe(
         exhaustMap((values: Country[]) => {
-          console.log(values);
           if (values) {
             return of(values);
           }

@@ -52,9 +52,8 @@ export class WebWorkerComponent implements OnDestroy {
     if (window['Excel']) {
       // grab value from excel sheet
       const value = await this.getA1Value();
-      console.log(value);
-      // call local function
-
+      
+      // calculate fib
       const result = this._fib(value);
 
       // write result to excel
